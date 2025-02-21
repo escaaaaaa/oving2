@@ -30,16 +30,15 @@ class HandOfCards:
     def is_hearts(self):
         if len(self.cards) == 0:
             return False
-        Hearts = filter(lambda x: cards.get_suit() == H for card in self.cards, self.cards)
-        
+        Hearts = filter(lambda card: card.get_suit() == "H", self.cards)
         return(list(Hearts)
 
 
 
     # Example: Filter even numbers from a list
-n = [1, 2, 3, 4, 5, 6]
-even = filter(lambda x: x % 2 == 0, n)
-print(list(even))  
+#n = [1, 2, 3, 4, 5, 6]
+#even = filter(lambda x: x % 2 == 0, n)
+#print(list(even))  
 
     def __str__(self):
         return ', '.join(card.get_as_string() for card in self.cards)
