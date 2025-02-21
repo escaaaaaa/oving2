@@ -29,6 +29,9 @@ class HandOfCards:
         first_suit = self.cards[0].get_suit()
         return all(card.get_suit() == first_suit for card in self.cards)
 
+        #Below there be dragons (I wrote the code myself before __str__)
+
+    #Checking for any hearts and returning them if there are any
     def is_hearts(self):
         if len(self.cards) == 0:
             return False
@@ -36,9 +39,11 @@ class HandOfCards:
         Hearts = [card.get_as_string() for card in Hearts_Check]
         return " ".join(Hearts) if Hearts else False
 
+    #Counts the total number value of the cards
     def count_points(self):
         return(reduce(lambda x, y: x+y.get_face(), self.cards, 0))
 
+    #Checks if there is a queen of spades in the hand
     def is_ladyspade(self):
         for card in self.cards:
             if card.get_as_string() == "S12":
