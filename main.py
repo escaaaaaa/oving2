@@ -6,7 +6,7 @@ Check=0
 print('')
 print('Welcome to this cardgame!')
 print('The rules are as follow:')
-print('Rule 1')
+print('Rule 1[...]')
 print('')
 print('Good luck!')
 print('')
@@ -67,5 +67,9 @@ def menu():
 
 menu()
 
-
+answer=input("Are you sure?")
+if answer.lower == "yes":
+    pass
+else:
+    menu()
 
