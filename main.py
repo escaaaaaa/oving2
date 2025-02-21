@@ -1,5 +1,3 @@
-from PlayingCard import PlayingCard
-from HandOfCards import HandOfCards
 from DeckOfCards import DeckOfCards
 
 Deck=DeckOfCards()
