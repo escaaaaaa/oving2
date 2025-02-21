@@ -31,7 +31,7 @@ class HandOfCards:
         if len(self.cards) == 0:
             return False
         Hearts_Check = filter(lambda card: card.get_suit() == "H", self.cards)
-        Hearts = [card.get_as_string[] for card in Hearts_Check]
+        Hearts = [card.get_as_string() for card in Hearts_Check]
         return(Hearts)
 
     def __str__(self):
