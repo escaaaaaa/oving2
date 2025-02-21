@@ -39,6 +39,12 @@ class HandOfCards:
     def count_points(self):
         return(reduce(lambda x, y: x+y.get_face(), self.cards, 0))
 
+    def is_ladyspade(self):
+        for card in self.cards:
+            if card.get_as_string() == "S12":
+                return True
+        return False
+
 
     def __str__(self):
         return ', '.join(card.get_as_string() for card in self.cards)
