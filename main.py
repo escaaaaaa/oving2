@@ -1,4 +1,4 @@
-from src.DeckOfCards import DeckOfCards
+from DeckOfCards import DeckOfCards
 
 Deck=DeckOfCards()
 Check=0
