@@ -36,7 +36,7 @@ class HandOfCards:
         Hearts = [card.get_as_string() for card in Hearts_Check]
         return(Hearts)
 
-    def count_points(self)
+    def count_points(self):
         return(reduce(lambda x, y: x+y.get_face(), self.cards, 0))
 
 
