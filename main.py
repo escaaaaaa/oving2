@@ -47,7 +47,18 @@ def menu():
                     print("Congraulations! It's a flush!")
                 else:
                     print("Unfortunately it's not a flush :(")
-                
+                Hearts=Hand.is_hearts()
+                if Hearts == False:
+                    print("No hearts for you I'm afraid :(")
+                else:
+                    print("These are the cards of the Heart suit: ", Hearts)
+                Count=Hand.count_points()
+                print("This is the number value of your cards all together: ", Count)
+                Ladyspade=Hand.is_ladyspade()
+                if Ladyspade == True:
+                    print("Gasp! You have the Queen of spades!")
+                else:
+                    print('No Queen of spades for you!')
         #User input for ending the function
         elif x == '4':
             print('Thank you for playing my card game!')
