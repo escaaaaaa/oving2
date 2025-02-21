@@ -1,3 +1,5 @@
+from functools import reduce
+
 class HandOfCards:
     """
     A class to represent a hand of playing cards.
@@ -33,6 +35,10 @@ class HandOfCards:
         Hearts_Check = filter(lambda card: card.get_suit() == "H", self.cards)
         Hearts = [card.get_as_string() for card in Hearts_Check]
         return(Hearts)
+
+    def count_points(self)
+        return(reduce(lambda x, y: x+y.get_face(), self.cards, 0))
+
 
     def __str__(self):
         return ', '.join(card.get_as_string() for card in self.cards)
