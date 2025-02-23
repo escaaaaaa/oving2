@@ -1,18 +1,23 @@
 from DeckOfCards import DeckOfCards
 import pickle
-from PIL import Image, ImageTk
 import tkinter as tk
+
 
 Deck=DeckOfCards()
 Check=0
 file_exist=False
 confirm_exit=False
 filename_standard="my_hand.pkl"
+total_score=0
 
 print('')
 print('Welcome to this cardgame!')
 print('The rules are as follow:')
-print('Rule 1[...]')
+print('1. You want to get as many points as possible.')
+print('2. The number value of the cards are added up, ace is 1 point, king is 13 points.')
+print('3. If any of your cards are of the heart suit you get 5 points extra')
+print('4. A full flush of a suit will give you 50 points extra')
+print('5. If you draw the queen of hearts, you immediately loose all points and have to start over.')
 print('')
 print('Good luck!')
 print('')
@@ -44,11 +49,53 @@ def load_hand(filename):
     return None
 
 
+#Function to display the hand of cards graphically
+def display_hand(hand):
+    #Arguments:
+        #hand: The HandOfCards object to be displayed
+    root = tk.Tk()
+    root.title("Your Hand")
+    for i, card in enumerate(hand.cards):
+        filename = f"CardImages/{card.get_as_string()}.gif"       
+        try:
+            photo = tk.PhotoImage(file=filename)
+            photo=photo.subsample(2)
+            label = tk.Label(root, image=photo)
+            label.image = photo 
+            label.grid(row=0, column=i)
+        except tk.TclError:
+            print(f"Image not found or unsupported format: {filename}")
+    root.mainloop()
+
+
+#Function to count points
+def count_points(Hand):
+    global total_score
+    Count=Hand.count_points()
+    total_score=total_score+Count
+    Flush=Hand.is_flush()
+    if Flush==True:
+        total_score=total_score+50
+    else:
+        pass
+    Hearts=Hand.is_hearts()
+    if Hearts == False:
+        pass
+    else:
+        total_score=total_score+5
+    Ladyspade=Hand.is_ladyspade()
+    if Ladyspade == True:            
+        total_score=0
+    else:
+        pass
+
+
 #The menu function for the game
 def menu():   
     global Check 
     global confirm_exit
     global file_exist
+    global total_score
     while True:
         if confirm_exit==True:
             break
@@ -57,9 +104,9 @@ def menu():
         print('')
         print('Choose an option from the menu by entering a number:')
         print('1: Deal a new hand of cards')
-        print('2: See the cards I currently have')
-        print('3: Check for a flush')
-        print('4: Save you hand of cards to a file')
+        print('2: See the total score and my current hand of cards')
+        print('3: Check my hand for a flush')
+        print('4: Save your hand of cards to a file')
         print('5: Upload a hand of cards from a file')
         print('6: Exit the game')
         x=input('I want to: ')
@@ -70,13 +117,17 @@ def menu():
             Hand=Deck.deal_hand(5)
             print(Hand)
             Check=1
+            count_points(Hand)
 
         # User input for seeing the cards in the players hand
         elif x == '2':
             if Check==0:
                 print("You haven't dealt a hand yet!")
             else:
-                print(Hand)
+                print('Your score is ', total_score)
+                print('Remember to close the display window to coninue the game!')
+                display_hand(Hand)
+
 
         # User input for checking the users hand for points and other things
         elif x == '3':
@@ -132,11 +183,13 @@ def menu():
                     if choose_filename.lower()=="yes":
                         filename = filename_standard
                         Hand = load_hand(filename)
+                        count_points(Hand)
                         break
                     elif choose_filename.lower()=="no":
                         filename_input = input("Write the filename you wish to load from (without extensions):")
                         filename=filename_input+".pkl"
                         Hand = load_hand(filename)
+                        count_points(Hand)
                         break
                     else:
                         print('That is not a valid option, please type yes or no!') 
