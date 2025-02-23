@@ -1,5 +1,7 @@
 from DeckOfCards import DeckOfCards
 import pickle
+from PIL import Image, ImageTk
+import tkinter as tk
 
 Deck=DeckOfCards()
 Check=0
@@ -126,8 +128,8 @@ def menu():
                 print('You have not yet saved a hand to load!')
             else:
                 while True:
-                    choose_filename.lower()=input("Do you want to use the standard savefile (yes) or write a filename you have created (no)?")
-                    if choose_filename=="yes":
+                    choose_filename=input("Do you want to use the standard savefile (yes) or write a filename you have created (no)?")
+                    if choose_filename.lower()=="yes":
                         filename = filename_standard
                         Hand = load_hand(filename)
                         break
@@ -157,6 +159,3 @@ def menu():
             print('That is not a valid option, please write yes or no!')
 
 menu()
-
-
-
