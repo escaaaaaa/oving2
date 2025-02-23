@@ -3,7 +3,9 @@ import pickle
 
 Deck=DeckOfCards()
 Check=0
+file_exist=False
 confirm_exit=False
+filename_standard="my_hand.pkl"
 
 print('')
 print('Welcome to this cardgame!')
@@ -17,15 +19,34 @@ print('')
 #Function to save a hand of cards to a file for later use
 def save_hand(hand, filename):
     #Arguments:
-        #hand: TenHadOfCards object to be saved
-        #filmename (str): The name of the save file
+        #hand: HandOfCards object to be saved
+        #filename (str): The name of the save file
     with open(filename, 'wb') as file:
         pickle.dump(hand, file)
     print(f"Hand saved to {filename}")
 
+
+#Function to load a hand of cards from a file
+def load_hand(filename):
+    #Arguments:
+        #filename (str): The name of the savefile
+    try:
+        with open(filename, 'rb') as file:
+            hand = pickle.load(file)
+        print(f"Hand loaded from {filename}")
+        return hand
+    except FileNotFoundError:
+        print(f"The file {filename} was not found.")
+    except pickle.PickleError:
+        print(f"Could not read the file {filename}. The file might be corrupted")
+    return None
+
+
+#The menu function for the game
 def menu():   
     global Check 
     global confirm_exit
+    global file_exist
     while True:
         if confirm_exit==True:
             break
@@ -41,17 +62,20 @@ def menu():
         print('6: Exit the game')
         x=input('I want to: ')
         print('')
+
         # User input for dealing a hand of cards
         if x == '1':
             Hand=Deck.deal_hand(5)
             print(Hand)
             Check=1
+
         # User input for seeing the cards in the players hand
         elif x == '2':
             if Check==0:
                 print("You haven't dealt a hand yet!")
             else:
                 print(Hand)
+
         # User input for checking the users hand for points and other things
         elif x == '3':
             if Check==0:
@@ -75,14 +99,45 @@ def menu():
                 else:
                     print('No Queen of spades for you!')
  
- 
+        #User input for saving a dealt hand of cards
         elif x == '4':
-            pass
- 
- 
-        elif x == '5':
-            pass
+            if Check==0:
+                print("You haven't dealt a hand yet!")
+            else:
+                while True:
+                    choose_filename=input("Do you want to use the standard savefile (yes) or write a filename to save to (no)?")
+                    if choose_filename.lower()=="yes":
+                        filename = filename_standard
+                        save_hand(Hand, filename)
+                        file_exist=True
+                        break
+                    elif choose_filename.lower()=="no":
+                        filename_input = input("Write a filename to save the hand to:")
+                        filename=filename_input+".pkl"
+                        save_hand(Hand, filename)
+                        file_exist=True
+                        break  
+                    else: 
+                        print('That is not a valid option, please type yes or no!')                      
 
+        #User input for loading a saved hand of cards
+        elif x == '5':
+            if file_exist==False:
+                print('You have not yet saved a hand to load!')
+            else:
+                while True:
+                    choose_filename.lower()=input("Do you want to use the standard savefile (yes) or write a filename you have created (no)?")
+                    if choose_filename=="yes":
+                        filename = filename_standard
+                        Hand = load_hand(filename)
+                        break
+                    elif choose_filename.lower()=="no":
+                        filename_input = input("Write the filename you wish to load from (without extensions):")
+                        filename=filename_input+".pkl"
+                        Hand = load_hand(filename)
+                        break
+                    else:
+                        print('That is not a valid option, please type yes or no!') 
 
         #User input for ending the function
         elif x == '6':
@@ -99,7 +154,7 @@ def menu():
                 else:
                     print('That is not a valid option, please type yes or no!')
         else:
-            print('That is not a valid option, please choose again:')
+            print('That is not a valid option, please write yes or no!')
 
 menu()
 
